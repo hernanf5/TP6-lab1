@@ -43,6 +43,8 @@ public class ListadoPorPrecio extends javax.swing.JInternalFrame {
         jTPrecio = new javax.swing.JTable();
         jBMinMax = new javax.swing.JButton();
 
+        setClosable(true);
+
         jLabel1.setText("Listado por precio");
 
         jLabel2.setText("Entre $:");
