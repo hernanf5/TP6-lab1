@@ -1,15 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package tp6;
+    
+import java.util.TreeSet;
+import models.Producto;
 
 /**
  *
  * @author Hernán Funes
  */
 public class MenuGeneral extends javax.swing.JFrame {
-
+    public static TreeSet<Producto> productList = new TreeSet<>();
     /**
      * Creates new form MenuGeneral
      */
@@ -76,6 +75,11 @@ public class MenuGeneral extends javax.swing.JFrame {
         jMenuConsultas.add(jMIRubro);
 
         jMINombre.setText("Por Nombre");
+        jMINombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMINombreActionPerformed(evt);
+            }
+        });
         jMenuConsultas.add(jMINombre);
 
         jMIPrecio.setText("Por Precio");
@@ -105,11 +109,21 @@ public class MenuGeneral extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMIRubroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIRubroActionPerformed
-        // TODO add your handling code here:
+        escritorio.removeAll();
+        escritorio.repaint();
+        ListadoPorRubro lpr = new ListadoPorRubro();
+        lpr.setVisible(true);
+        escritorio.add(lpr);
+        escritorio.moveToFront(lpr);
     }//GEN-LAST:event_jMIRubroActionPerformed
 
     private void jMIPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIPrecioActionPerformed
-        // TODO add your handling code here:
+        escritorio.removeAll();
+        escritorio.repaint();
+        ListadoPorPrecio lpp = new ListadoPorPrecio();
+        lpp.setVisible(true);
+        escritorio.add(lpp);
+        escritorio.moveToFront(lpp);
     }//GEN-LAST:event_jMIPrecioActionPerformed
 
     private void jMIProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIProductosActionPerformed
@@ -119,11 +133,21 @@ public class MenuGeneral extends javax.swing.JFrame {
         gdp.setVisible(true);
         escritorio.add(gdp);
         escritorio.moveToFront(gdp);
+        
     }//GEN-LAST:event_jMIProductosActionPerformed
 
     private void JMenuAdministracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMenuAdministracionActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_JMenuAdministracionActionPerformed
+
+    private void jMINombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMINombreActionPerformed
+        escritorio.removeAll();
+        escritorio.repaint();
+        ListadoPorNombre lpn = new ListadoPorNombre();
+        lpn.setVisible(true);
+        escritorio.add(lpn);
+        escritorio.moveToFront(lpn);
+    }//GEN-LAST:event_jMINombreActionPerformed
 
     /**
      * @param args the command line arguments

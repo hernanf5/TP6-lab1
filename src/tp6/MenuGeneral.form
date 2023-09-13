@@ -39,6 +39,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Por Nombre"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMINombreActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMIPrecio">
               <Properties>

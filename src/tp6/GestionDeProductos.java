@@ -1,6 +1,8 @@
 package tp6;
 
+import javax.swing.JOptionPane;
 import models.Categoria;
+import models.Producto;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
@@ -11,7 +13,7 @@ import models.Categoria;
  * @author Hernán Funes
  */
 public class GestionDeProductos extends javax.swing.JInternalFrame {
-
+    private Producto prodEncontrado = null;
     /**
      * Creates new form GestionDeProductos
      */
@@ -59,6 +61,11 @@ public class GestionDeProductos extends javax.swing.JInternalFrame {
         jLabel6.setText("Stock");
 
         jBBuscar.setText("Buscar");
+        jBBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBBuscarActionPerformed(evt);
+            }
+        });
 
         jCRubro.setModel(new javax.swing.DefaultComboBoxModel<>(new Categoria[] { Categoria.COMESTIBLE, Categoria.LIMPIEZA, Categoria.PERFUMERIA}));
         jCRubro.addActionListener(new java.awt.event.ActionListener() {
@@ -68,12 +75,33 @@ public class GestionDeProductos extends javax.swing.JInternalFrame {
         });
 
         jBNuevo.setText("Nuevo");
+        jBNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBNuevoActionPerformed(evt);
+            }
+        });
 
         jBGuardar.setText("Guardar");
+        jBGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBGuardarActionPerformed(evt);
+            }
+        });
 
         jBEliminar.setText("Eliminar");
+        jBEliminar.setEnabled(false);
+        jBEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBEliminarActionPerformed(evt);
+            }
+        });
 
         jBSalir.setText("Salir");
+        jBSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBSalirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -160,6 +188,83 @@ public class GestionDeProductos extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jCRubroActionPerformed
 
+    private void jBNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBNuevoActionPerformed
+        limpiar();
+        prodEncontrado = null;
+        
+    }//GEN-LAST:event_jBNuevoActionPerformed
+
+    private void jBSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSalirActionPerformed
+        dispose();
+    }//GEN-LAST:event_jBSalirActionPerformed
+
+    private void jBGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBGuardarActionPerformed
+        try{
+            int codigo = Integer.parseInt(jTCodigo.getText());
+            String descripcion = jTDescripcion.getText();
+            double precio = Double.parseDouble(jTPrecio.getText());
+            Categoria rubro = (Categoria)jCRubro.getSelectedItem();
+            int stock = Integer.parseInt(jTStock.getText());
+            Producto newProduct = new Producto(codigo, descripcion, precio, stock, rubro);
+            if(descripcion.isEmpty()){
+                JOptionPane.showMessageDialog(this, "No deben haber campos en blanco");
+                return;
+            }
+            
+            boolean resultado = MenuGeneral.productList.add(newProduct);
+            if(resultado){
+            JOptionPane.showMessageDialog(this, "Producto agregado con exito!");
+            limpiar();    
+            }else{
+                JOptionPane.showMessageDialog(this, "Ya existe un producto con ese codigo");
+            }
+        
+        }catch(NumberFormatException nfe){
+            JOptionPane.showMessageDialog(this, "Debe ingresar datos en todos los campos");
+        }
+        
+    }//GEN-LAST:event_jBGuardarActionPerformed
+
+    private void jBBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBBuscarActionPerformed
+        try{    
+        prodEncontrado = null;
+        int codigo = Integer.parseInt(jTCodigo.getText());
+        for(Producto prod:MenuGeneral.productList){
+            if(prod.getCodigo() == codigo){
+                prodEncontrado = prod;
+                break;
+            }
+        }
+        if(prodEncontrado==null){
+            JOptionPane.showMessageDialog(this, "No se encontró el producto");
+        }else{
+            jBEliminar.setEnabled(true);
+            jTDescripcion.setText(prodEncontrado.getDescripcion());
+            jTPrecio.setText(prodEncontrado.getPrecio()+"");
+            jTStock.setText(prodEncontrado.getStock()+"");
+            jCRubro.setSelectedItem(prodEncontrado.getRubro());
+        }
+        
+        }catch(NumberFormatException nfe){
+            JOptionPane.showMessageDialog(this, "Debe escribir un codigo primero");
+        }
+        
+        
+    }//GEN-LAST:event_jBBuscarActionPerformed
+
+    private void jBEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEliminarActionPerformed
+        MenuGeneral.productList.remove(prodEncontrado);
+        JOptionPane.showMessageDialog(this, "Producto eliminado con exito");
+        limpiar();
+    }//GEN-LAST:event_jBEliminarActionPerformed
+
+    private void limpiar(){
+        jTCodigo.setText("");
+        jTDescripcion.setText("");
+        jTPrecio.setText("");
+        jTStock.setText("");
+        jBEliminar.setEnabled(false);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBBuscar;
